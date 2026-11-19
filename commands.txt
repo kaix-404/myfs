@@ -1,0 +1,14 @@
+fusermount -uz mnt
+
+gcc -Wall mkfs_myfs.c -o mkfs_myfs
+gcc -Wall myfs.c $(pkg-config fuse3 --cflags --libs) -o myfs
+
+./mkfs_myfs
+./myfs -f -s mnt
+
+gcc -Wall -O2 bench.c -o bench
+./bench
+
+cat mnt/.diskstat
+cat mnt/.recover
+cat mnt/.purge
